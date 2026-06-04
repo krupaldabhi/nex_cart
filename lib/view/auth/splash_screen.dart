@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nex_cart/utils/app_colors.dart';
+
+import 'on_board_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     print("Init State Called");
     Timer(Duration (seconds: 4), (){
       print("Print After 4 Seconds");
+      Get.offAll(()=> OnBoardScreen());
     });
   }
   @override
