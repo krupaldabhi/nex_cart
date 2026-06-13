@@ -15,29 +15,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
   List<Map<String, String>> categories = [
-    {
-      "title": "Books",
-      "image": "assets/temp/book.png",
-    },
-    {
-      "title": "Soap",
-      "image": "assets/temp/soap.png",
-    },
-    {
-      "title": "Pent",
-      "image": "assets/temp/pent.jpg",
-    },
-    {
-      "title": "Shirt",
-      "image": "assets/temp/shirt.jpg",
-    },
-    {
-      "title": "Mobile",
-      "image": "assets/temp/mobile.png",
-    },{
-      "title": "Shose",
-      "image": "assets/temp/shose.jpg",
-    },
+    {"title": "Books", "image": "assets/temp/book.png"},
+    {"title": "Soap", "image": "assets/temp/soap.png"},
+    {"title": "Pent", "image": "assets/temp/pent.jpg"},
+    {"title": "Shirt", "image": "assets/temp/shirt.jpg"},
+    {"title": "Mobile", "image": "assets/temp/mobile.png"},
+    {"title": "Shose", "image": "assets/temp/shose.jpg"},
   ];
 
   @override
@@ -59,9 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const CircleAvatar(
                       radius: 32,
                       backgroundColor: Colors.red,
-                      backgroundImage: AssetImage(
-                        "assets/temp/user_image.png",
-                      ),
+                      backgroundImage: AssetImage("assets/temp/user_image.png"),
                     ),
 
                     const SizedBox(width: 16),
@@ -225,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             // TODO Search Container
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -244,10 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 decoration: InputDecoration(
                   hintText: "Search Product",
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: AppColors.primaryBlue,
-                  ),
+                  prefixIcon: Icon(Icons.search, color: AppColors.primaryBlue),
                   filled: true,
                   fillColor: Colors.grey.shade100,
                   border: OutlineInputBorder(
@@ -276,7 +254,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 250),
-                      margin: const EdgeInsets.only(right: 12, top: 8, bottom: 8),
+                      margin: const EdgeInsets.only(
+                        right: 12,
+                        top: 8,
+                        bottom: 8,
+                      ),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 10,
@@ -310,9 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: GoogleFonts.outfit(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
-                              color: isSelected
-                                  ? Colors.white
-                                  : Colors.black87,
+                              color: isSelected ? Colors.white : Colors.black87,
                             ),
                           ),
                         ],
@@ -330,15 +310,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisCount: 2,
                 childAspectRatio: 0.67,
                 crossAxisSpacing: 8,
-                mainAxisSpacing: 8
-
-
+                mainAxisSpacing: 8,
               ),
               itemCount: 10,
-              itemBuilder: (context , index){
+              itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: (){
-                    Get.to(()=> ProductDetailsScreen());
+                  onTap: () {
+                    Get.to(() => ProductDetailsScreen());
                   },
                   child: Container(
                     // width: MediaQuery.of(context).size.width / 2.1,
@@ -462,21 +440,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-
-
-
           ],
         ),
       ),
     );
   }
-  Widget _drawerItem({required IconData icon, required String title, required VoidCallback onTap, Color iconColor = Colors.black, Color textColor = Colors.black,}) {
+
+  Widget _drawerItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    Color iconColor = Colors.black,
+    Color textColor = Colors.black,
+  }) {
     return ListTile(
-      leading: Icon(
-        icon,
-        color: iconColor,
-        size: 24,
-      ),
+      leading: Icon(icon, color: iconColor, size: 24),
       title: Text(
         title,
         style: GoogleFonts.outfit(
@@ -493,5 +471,4 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: onTap,
     );
   }
-
 }
