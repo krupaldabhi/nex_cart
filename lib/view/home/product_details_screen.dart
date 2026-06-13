@@ -64,7 +64,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
       ),
       title: Text(
-        "Product  Dwescriptop ",
+        "Product  Dwescriptop Changes  ",
         style: GoogleFonts.outfit(
           color: AppColors.black,
           fontWeight: FontWeight.w700,
