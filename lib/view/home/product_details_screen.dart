@@ -5,6 +5,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nex_cart/utils/app_colors.dart';
 
+import '../e_commerce/cart_list_screen.dart';
+
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key});
@@ -406,7 +408,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(()=> CartListScreen());
+                    },
                     child: Text(
                       "Buy Now • ₹5,999",
                       style: GoogleFonts.outfit(

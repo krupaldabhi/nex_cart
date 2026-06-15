@@ -5,6 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nex_cart/utils/app_colors.dart';
 import 'package:nex_cart/view/home/product_details_screen.dart';
 
+import '../e_commerce/cart_list_screen.dart';
+import '../e_commerce/wishlist_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -96,13 +99,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     _drawerItem(
                       icon: Icons.shopping_cart_outlined,
                       title: "My Cart",
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(()=> CartListScreen());
+                      },
                     ),
 
                     _drawerItem(
                       icon: Icons.favorite_border,
                       title: "Wishlist",
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(()=> WishlistScreen());
+                      },
                     ),
 
                     _drawerItem(
