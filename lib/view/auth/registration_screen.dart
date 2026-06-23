@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 import '../../utils/app_colors.dart';
+import '../../utils/app_urls.dart';
 import '../home/home_screen.dart';
 import 'login_screen.dart';
 
@@ -161,10 +165,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       width: double.infinity,
                       height: 55,
                       child: ElevatedButton(
-                        onPressed: (){
-                          Get.offAll(()=> HomeScreen());
-                        },
-                        // onPressed: validateForm,
+                        // onPressed: (){
+                        //   Get.offAll(()=> HomeScreen());
+                        // },
+                        onPressed: validateForm,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryBlue,
                           shape: RoundedRectangleBorder(
@@ -183,12 +187,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
 
                     const SizedBox(height: 20),
-
-
-
-
-
-
                   ],
                 ),
               ),
@@ -307,12 +305,63 @@ class _RegisterScreenState extends State<RegisterScreen> {
         colorText: Colors.white,
       );
     } else {
-      Get.snackbar(
-        "Success",
-        "Account Created Successfully",
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
+      registerAPI(emailAddress: mobile, Password: password, mobile:mobile);
+
     }
   }
+
+
+  Future registerAPI({required String emailAddress, required String Password, required String mobile}) async {
+    try {
+
+      var responce = await http.get(
+        Uri.parse("${AppUrls.registerUrl}?email=$emailAddress&password=$Password&mobile=$mobile"),
+      );
+
+      print("responce is ${responce.statusCode}");
+
+      if (responce.statusCode == 200) {
+        var data = jsonDecode(responce.body);
+
+        print("Error : ${data[0]['error']}");
+        print("Success : ${data[1]['success']}");
+        print("Message : ${data[2]['message']}");
+
+        Get.showSnackbar(
+          GetSnackBar(
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 3),
+            title: "Success",
+            message: data[2]['message'],
+          ),
+        );
+
+        Get.offAll(() => LoginScreen());
+      } else {
+        Get.showSnackbar(
+          GetSnackBar(
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+            title: "Error",
+            message: "Invalid Register Attemp",
+          ),
+        );
+        print("Stattus Error ");
+      }
+      // print(jsonDecode(data.toString()));
+    } catch (e) {
+      Get.showSnackbar(
+        GetSnackBar(
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+          title: "Error",
+          message: "Invalid Login Attempt $e",
+        ),
+      );
+      print("Error Catch $e");
+    }
+
+    return null;
+  }
+
 }

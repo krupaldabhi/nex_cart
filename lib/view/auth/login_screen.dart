@@ -159,15 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _modernField(
-    TextEditingController controller,
-    String hint,
-    IconData icon, {
-    bool isPassword = false,
-    bool isNumber = false,
-    required bool isObscured,
-    required VoidCallback toggleVisibility,
-  }) {
+  Widget _modernField(TextEditingController controller, String hint, IconData icon, {bool isPassword = false, bool isNumber = false, required bool isObscured, required VoidCallback toggleVisibility,}) {
     return TextField(
       controller: controller,
       obscureText: isPassword ? isObscured : false,
@@ -227,52 +219,71 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       SharedPreferences sp = await SharedPreferences.getInstance();
 
-      var responce = await http.get(
-        Uri.parse("${AppUrls.loginUrl}?email=$emailAddress&password=$Password"),
+      var response = await http.get(
+        Uri.parse(
+          "${AppUrls.loginUrl}?email=$emailAddress&password=$Password",
+        ),
       );
 
-      print("responce is ${responce.statusCode}");
+      print("Response Status: ${response.statusCode}");
 
-      if (responce.statusCode == 200) {
-        var data = jsonDecode(responce.body);
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
 
-        print("Data is Here $data");
-        print("User Id  is Here ${data[3]['id']}");
+        print("Data: $data");
 
-        await sp.setString('userId', '${data[3]['id']}');
-        Get.showSnackbar(
-          GetSnackBar(
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 3),
-            title: "Sucess",
-            message: "${data[2]['message']}",
-          ),
-        );
-        Get.offAll(() => HomeScreen());
+        String success = data[1]['success'].toString();
+        String message = data[2]['message'].toString();
+
+        if (success == "yes") {
+          String userId = data.length > 3
+              ? data[3]['id'].toString()
+              : "";
+
+          print("User ID: $userId");
+
+          await sp.setString('userId', userId);
+
+          Get.showSnackbar(
+            GetSnackBar(
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 3),
+              title: "Success",
+              message: message,
+            ),
+          );
+
+          Get.offAll(() => HomeScreen());
+        } else {
+          Get.showSnackbar(
+            GetSnackBar(
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 3),
+              title: "Error",
+              message: message,
+            ),
+          );
+        }
       } else {
         Get.showSnackbar(
           GetSnackBar(
             backgroundColor: Colors.red,
-            duration: Duration(seconds: 3),
+            duration: const Duration(seconds: 3),
             title: "Error",
-            message: "Invalid Login Attemp",
+            message: "Server Error",
           ),
         );
-        print("Stattus Error ");
       }
-      // print(jsonDecode(data.toString()));
     } catch (e) {
+      print("Error Catch: $e");
+
       Get.showSnackbar(
         GetSnackBar(
           backgroundColor: Colors.red,
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
           title: "Error",
-          message: "Invalid Login Attempt",
+          message: e.toString(),
         ),
       );
-      print("Error Catch $e");
     }
-
-    return null;
-  }
-}
+  }}
