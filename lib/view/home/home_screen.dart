@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:nex_cart/utils/app_colors.dart';
+import 'package:nex_cart/utils/app_urls.dart';
 import 'package:nex_cart/view/auth/change_password.dart';
 import 'package:nex_cart/view/home/product_details_screen.dart';
+import 'package:nex_cart/view/home/product_list_model.dart';
 import 'package:nex_cart/view/other_screen/terms_condition.dart';
 
 import '../e_commerce/cart_list_screen.dart';
@@ -19,6 +24,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("Init Called ");
+    apiProductList();
+  }
+  List<ProductModel> productList = [];
+  ProductListModel productListModel = ProductListModel();
+
   int selectedIndex = 0;
   List<Map<String, String>> categories = [
     {"title": "Books", "image": "assets/temp/book.png"},
@@ -333,8 +351,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
               ),
-              itemCount: 10,
+              itemCount: productListModel.products?.length ?? 0,
               itemBuilder: (context, index) {
+                var item = productListModel.products?[index];
+
                 return InkWell(
                   onTap: () {
                     Get.to(() => ProductDetailsScreen());
@@ -362,8 +382,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: const BorderRadius.vertical(
                                 top: Radius.circular(18),
                               ),
-                              child: Image.asset(
-                                "assets/temp/shose.jpg",
+                              child: Image.network(
+                                "${AppUrls.imageUrlCategory}${item?.photo}",
                                 height: 150,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
@@ -422,7 +442,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Branded Shoes Puma",
+                                item?.title ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
@@ -435,7 +455,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 4),
 
                               Text(
-                                "Casual Running Shoes",
+                               item?.detail ?? '',
+                                maxLines: 2,
                                 style: GoogleFonts.outfit(
                                   fontSize: 13,
                                   color: Colors.grey,
@@ -445,7 +466,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 8),
 
                               Text(
-                                "₹500",
+                                "₹${item?.price ?? ''}",
                                 style: GoogleFonts.outfit(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
@@ -491,5 +512,29 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       onTap: onTap,
     );
+  }
+
+  Future<void> apiProductList() async {
+    try{
+      var reponce = await http.get(
+        Uri.parse(AppUrls.productUrl),
+      );
+      print("Responce Is Geted ${reponce}");
+      print("Responce Status Code ${reponce.statusCode}");
+      print("Responce Body ${reponce.body}");
+
+
+      if(reponce.statusCode == 200){
+        var data = jsonDecode(reponce.body);
+        setState(() {
+          productListModel = ProductListModel.fromJson(data);
+        });
+      }
+
+    } catch(e){
+      print("Error on API Call $e");
+    }
+
+
   }
 }
