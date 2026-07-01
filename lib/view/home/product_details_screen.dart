@@ -24,19 +24,37 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
+  String title = '';
+  String weight = '';
+  String size = '';
+  String photo = '';
+  String desc = '';
+  String price = '';
+  var args = Get.arguments;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("Argumenets $args");
+    if(args != null){
+      setState(() {
+        title =  args['title'];
+        weight =  args['weight'];
+        size =  args['size'];
+        desc =  args['desc'];
+        photo =  args['photo'];
+        price =  args['price'];
+      });
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.screenBackground,
-     /* appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(onPressed: (){
-          Get.back();
-        }, icon: Icon(Icons.arrow_back_ios,color: Colors.white,)),
-        backgroundColor: AppColors.primaryBlue,
-        title: Text("Product Details",style: GoogleFonts.outfit(color: Colors.white,fontWeight: FontWeight.bold),),
-      ),*/appBar: AppBar(
+    appBar: AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
       backgroundColor: AppColors.screenBackground,
@@ -66,7 +84,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
       ),
       title: Text(
-        "Product  Dwescriptop Changes  ",
+        title,
         style: GoogleFonts.outfit(
           color: AppColors.black,
           fontWeight: FontWeight.w700,
@@ -80,51 +98,46 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // TODO Caresol SLider
-        
-            /*Container(
-                child: CarouselSlider(
-                  options: CarouselOptions(),
-                  items: imgList
-                      .map((item) => Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: Center(
-                        child:
-                        Image.network(item, fit: BoxFit.cover, width: 1000)),
-                  ))
-                      .toList(),
-                )),
-        */
-            CarouselSlider(
-              options: CarouselOptions(
-                height: 300,
-                viewportFraction: 0.92,
-                enlargeCenterPage: true,
-                autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 3),
+            // CarouselSlider(
+            //   options: CarouselOptions(
+            //     height: 300,
+            //     viewportFraction: 0.92,
+            //     enlargeCenterPage: true,
+            //     autoPlay: true,
+            //     autoPlayInterval: const Duration(seconds: 3),
+            //   ),
+            //   items: imgList.map((item) {
+            //     return Container(
+            //       margin: const EdgeInsets.symmetric(horizontal: 5),
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(25),
+            //         boxShadow: [
+            //           BoxShadow(
+            //             color: Colors.black.withOpacity(0.12),
+            //             blurRadius: 15,
+            //             offset: const Offset(0, 8),
+            //           ),
+            //         ],
+            //       ),
+            //       child: ClipRRect(
+            //         borderRadius: BorderRadius.circular(25),
+            //         child: Image.network(
+            //           item,
+            //           fit: BoxFit.cover,
+            //           width: double.infinity,
+            //         ),
+            //       ),
+            //     );
+            //   }).toList(),
+            // ),
+            Container(
+              height: 200,
+              padding: EdgeInsets.all(15),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
               ),
-              items: imgList.map((item) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.12),
-                        blurRadius: 15,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Image.network(
-                      item,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    ),
-                  ),
-                );
-              }).toList(),
+              child: Image.network(photo,fit: BoxFit.cover,),
             ),
             // TODO Data Of Desc
             Padding(
@@ -134,7 +147,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         
                 children: [
                   Text(
-                    "Branded Shoes Puma",
+                   title,
                     style: GoogleFonts.outfit(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
@@ -143,78 +156,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                   SizedBox(height: 8),
 
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.amber, size: 18),
-                      SizedBox(width: 4),
-                      Text(
-                        "4.8",
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        "(2.4k Reviews)",
-                        style: GoogleFonts.outfit(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
 
-                  Text("Puma shoes are engineered for a blend of performance and urban streetwear. Known for the iconic Cat logo and Formstrip, they feature proprietary technologies like responsive NITRO foam, ultra-comfortable SOFTRIDE cushioning, and durable PUMALite foam for superior lightweight support and energy return",style: GoogleFonts.outfit(color: AppColors.greyText,fontSize: 12),),
+                  Text(desc,style: GoogleFonts.outfit(color: AppColors.greyText,fontSize: 12),),
 
                   SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Text(
-                        "₹7,499",
-                        style: GoogleFonts.outfit(
-                          color: Colors.grey,
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-
-                      SizedBox(width: 10),
-
-                      Text(
-                        "₹5,999",
-                        style: GoogleFonts.outfit(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryBlue,
-                        ),
-                      ),
-
-                      SizedBox(width: 10),
-
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.green.shade100,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          "20% OFF",
-                          style: GoogleFonts.outfit(
-                            color: Colors.green,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    "₹${price}",
+                    style: GoogleFonts.outfit(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryBlue,
+                    ),
                   ),
                   SizedBox(height: 10,),
                   Text("About More Info",style: GoogleFonts.outfit(fontWeight: FontWeight.bold,color: AppColors.black,fontSize: 18),),
-                  infoColum(title: "Waight", desc: '500 Gram'),
-                  infoColum(title: "Size", desc: '6 To 10'),
-                  infoColum(title: "Color", desc: 'Black , Blue , Red , Yellow , Green , White'),
-        
+                  infoColum(title: "Waight", desc: '$weight'),
+                  infoColum(title: "Size", desc: '$size'),
+
                   SizedBox(height: 10,),
                   // TODO Related Data
                   Text("Related Products ",style: GoogleFonts.outfit(fontWeight: FontWeight.bold,color: AppColors.black,fontSize: 18),),
@@ -412,7 +370,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       Get.to(()=> CartListScreen());
                     },
                     child: Text(
-                      "Buy Now • ₹5,999",
+                      "Buy Now • ₹$price",
                       style: GoogleFonts.outfit(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,

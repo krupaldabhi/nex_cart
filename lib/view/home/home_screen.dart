@@ -357,7 +357,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 return InkWell(
                   onTap: () {
-                    Get.to(() => ProductDetailsScreen());
+                    Get.to(() => ProductDetailsScreen(),arguments: {
+                      'title':item?.title,
+                      'price':item?.price,
+                      'photo':'${AppUrls.productImageUrl}${item?.photo}',
+                      'desc':item?.detail,
+                      'size':item?.size,
+                      'weight':item?.weight,
+                    });
+
                   },
                   child: Container(
                     // width: MediaQuery.of(context).size.width / 2.1,
@@ -383,56 +391,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 top: Radius.circular(18),
                               ),
                               child: Image.network(
-                                "${AppUrls.imageUrlCategory}${item?.photo}",
+                                "${AppUrls.productImageUrl}${item?.photo}",
                                 height: 150,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
                               ),
                             ),
 
-                            // Discount Badge
-                            Positioned(
-                              top: 10,
-                              left: 10,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Text(
-                                  "20% OFF",
-                                  style: GoogleFonts.outfit(
-                                    color: Colors.white,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            // Wishlist
-                            Positioned(
-                              top: 10,
-                              right: 10,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.favorite_border,
-                                    color: Colors.red,
-                                    size: 20,
-                                  ),
-                                  onPressed: () {},
-                                ),
-                              ),
-                            ),
                           ],
                         ),
 
